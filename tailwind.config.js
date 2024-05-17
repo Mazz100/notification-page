@@ -12,7 +12,7 @@ export default {
         "unread-bg": "#e5effa",
       },
       colors: {
-        "notificaction-type-color": "#0a317b",
+        "notificaction-type-hover": "#0a317b",
         "unread-color": "#f65351",
       },
     },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import mark from "./assets/images/avatar-mark-webber.webp";
 import angela from "./assets/images/avatar-angela-gray.webp";
 import jacob from "./assets/images/avatar-jacob-thompson.webp";
@@ -9,21 +9,23 @@ import anna from "./assets/images/avatar-anna-kim.webp";
 import chess from "./assets/images/image-chess.webp";
 
 const NotificationComponent = () => {
-  const [notification, setNotification] = useState();
+  const [notificationCount, setNotificationCount] = useState(0);
 
-  const usersNotifications = [
+  let usersNotifications = [
     {
       avatar: mark,
       userName: "Mark Webber",
       notification: "reacted to your recent post",
       action: "My first tournament today!",
       time: "1m ago",
+      unread: true,
     },
     {
       avatar: angela,
       userName: "Angela Gray",
       notification: "followed you",
       time: "5m ago",
+      unread: true,
     },
     {
       avatar: jacob,
@@ -31,6 +33,7 @@ const NotificationComponent = () => {
       notification: "has joined your group",
       action: "Chess Club",
       time: "1 day ago",
+      unread: true,
     },
     {
       avatar: rizky,
@@ -63,13 +66,20 @@ const NotificationComponent = () => {
     },
   ];
 
+  useEffect(() => {
+    const unreadCount = usersNotifications.filter(
+      (notification) => notification.unread,
+    ).length; // returning unread count from users object
+    setNotificationCount(unreadCount);
+  }, [notificationCount]);
+
   return (
     <>
-      <div className="flex items-center justify-between p-3">
+      <div className="mb-4 flex items-center justify-between p-5">
         <h1 className="text-2xl font-bold">
           Notifications
-          <span className="mx-2 rounded-lg  bg-notification-count px-3 py-1 text-white">
-            3
+          <span className="mx-2 rounded-lg  bg-notification-count px-3 py-[0.14rem] text-white">
+            {notificationCount}
           </span>
         </h1>
         <button
@@ -83,14 +93,22 @@ const NotificationComponent = () => {
       {usersNotifications.map((notification) => (
         <div
           key={notification.userName}
-          className="mb-4 flex items-start p-4 last-of-type:mb-0"
+          className="mx-5 mb-4 flex items-start rounded-md p-3 last-of-type:mb-0"
+          style={
+            notification.unread
+              ? {
+                  backgroundColor: "#f7fafd",
+                  marginInline: "1.25rem",
+                }
+              : null
+          }
         >
           <img
             className="mx-3 w-10"
             src={notification.avatar}
             alt={notification.userName}
           />
-          <div className="flex flex-wrap">
+          <div className="flex w-full flex-wrap items-center">
             <a
               className="mr-1 font-semibold"
               href={`#${notification.userName}`}
@@ -101,10 +119,13 @@ const NotificationComponent = () => {
             {notification.action && (
               <a
                 href="#"
-                className="hover:text-notificaction-type-color font-semibold hover:font-bold"
+                className="font-semibold hover:font-bold hover:text-notificaction-type-hover"
               >
                 {notification.action}
               </a>
+            )}
+            {notification.unread && (
+              <div className="mx-1 h-2 w-2 rounded-full bg-unread-color"></div>
             )}
             <div className="w-full">
               <span className="opacity-40">{notification.time}</span>
@@ -115,15 +136,17 @@ const NotificationComponent = () => {
               </p>
             )}
           </div>
-          {notification.picture && (
-            <a href="#">
-              <img
-                className="max-w-12"
-                src={notification.picture}
-                alt={notification.picture}
-              />
-            </a>
-          )}
+          <div>
+            {notification.picture && (
+              <a href="#">
+                <img
+                  className="max-w-12"
+                  src={notification.picture}
+                  alt={notification.picture}
+                />
+              </a>
+            )}
+          </div>
         </div>
       ))}
     </>
