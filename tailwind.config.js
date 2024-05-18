@@ -9,12 +9,11 @@ export default {
       backgroundColor: {
         "notification-count": "#0a317b",
         "body-bg": "#f9fafe",
-        "isRead-bg": "#e5effa",
         "message-bg-hover": "#e5eff9",
+        "isRead-color": "#f65351",
       },
       colors: {
         "notificaction-hover": "#0a317b",
-        "isRead-color": "#f65351",
       },
     },
   },
