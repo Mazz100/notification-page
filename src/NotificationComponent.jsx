@@ -10,22 +10,21 @@ import chess from "./assets/images/image-chess.webp";
 
 const NotificationComponent = () => {
   const [notificationCount, setNotificationCount] = useState(0);
-
-  let usersNotifications = [
+  const [userNotifications, setUserNotifcations] = useState([
     {
       avatar: mark,
       userName: "Mark Webber",
       notification: "reacted to your recent post",
       action: "My first tournament today!",
       time: "1m ago",
-      unread: true,
+      isRead: true,
     },
     {
       avatar: angela,
       userName: "Angela Gray",
       notification: "followed you",
       time: "5m ago",
-      unread: true,
+      isRead: true,
     },
     {
       avatar: jacob,
@@ -33,7 +32,7 @@ const NotificationComponent = () => {
       notification: "has joined your group",
       action: "Chess Club",
       time: "1 day ago",
-      unread: true,
+      isRead: true,
     },
     {
       avatar: rizky,
@@ -62,20 +61,31 @@ const NotificationComponent = () => {
       userName: "Anna Kim",
       notification: "left the group",
       action: "Chess Club",
-      time: "1 week ago",
+      time: "2 week ago",
     },
-  ];
+  ]);
+
+  function removeisRead() {
+    setUserNotifcations((prevNotifications) => {
+      return prevNotifications.map((notification) => {
+        delete notification.isRead;
+        return notification;
+      });
+    });
+
+    setNotificationCount(0);
+  }
 
   useEffect(() => {
-    const unreadCount = usersNotifications.filter(
-      (notification) => notification.unread,
-    ).length; // returning unread count from users object
-    setNotificationCount(unreadCount);
+    const isReadCount = userNotifications.filter(
+      (notification) => notification.isRead,
+    ).length; // returning isRead length from users object
+    setNotificationCount(isReadCount);
   }, [notificationCount]);
 
   return (
     <>
-      <div className="mb-4 flex items-center justify-between p-5">
+      <div className="mb-4 flex items-center justify-between p-6">
         <h1 className="text-2xl font-bold">
           Notifications
           <span className="mx-2 rounded-lg  bg-notification-count px-3 py-[0.14rem] text-white">
@@ -85,20 +95,20 @@ const NotificationComponent = () => {
         <button
           type="button"
           className="opacity-60 transition-opacity hover:opacity-100"
+          onClick={removeisRead}
         >
           Mark all as read
         </button>
       </div>
 
-      {usersNotifications.map((notification) => (
+      {userNotifications.map((notification) => (
         <div
           key={notification.userName}
           className="mx-5 mb-4 flex items-start rounded-md p-3 last-of-type:mb-0"
           style={
-            notification.unread
+            notification.isRead
               ? {
                   backgroundColor: "#f7fafd",
-                  marginInline: "1.25rem",
                 }
               : null
           }
@@ -110,30 +120,33 @@ const NotificationComponent = () => {
           />
           <div className="flex w-full flex-wrap items-center">
             <a
-              className="mr-1 font-semibold"
+              className="mr-1 font-semibold hover:text-notificaction-hover"
               href={`#${notification.userName}`}
             >
-              {notification.userName}
+              <p>{notification.userName}</p>
             </a>
             <p className="mr-1 opacity-60">{notification.notification}</p>
             {notification.action && (
               <a
                 href="#"
-                className="font-semibold hover:font-bold hover:text-notificaction-type-hover"
+                className="font-semibold hover:font-bold hover:text-notificaction-hover"
               >
-                {notification.action}
+                <p>{notification.action}</p>
               </a>
             )}
-            {notification.unread && (
-              <div className="mx-1 h-2 w-2 rounded-full bg-unread-color"></div>
+            {notification.isRead && (
+              <div className="mx-1 h-2 w-2 rounded-full bg-isRead-color"></div>
             )}
             <div className="w-full">
-              <span className="opacity-40">{notification.time}</span>
+              <span className="opacity-60">{notification.time}</span>
             </div>
             {notification.message && (
-              <p className="mt-3 rounded-md border-2 border-gray-100 p-3">
-                {notification.message}
-              </p>
+              <a
+                href="#"
+                className="mt-3 rounded-md border-[1px] p-3 transition-colors duration-150 ease-out hover:border-[#e5eff9] hover:bg-message-bg-hover"
+              >
+                <p>{notification.message}</p>
+              </a>
             )}
           </div>
           <div>

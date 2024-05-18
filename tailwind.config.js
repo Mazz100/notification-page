@@ -8,12 +8,13 @@ export default {
       },
       backgroundColor: {
         "notification-count": "#0a317b",
-        "body-bg": "#f7fafd",
-        "unread-bg": "#e5effa",
+        "body-bg": "#f9fafe",
+        "isRead-bg": "#e5effa",
+        "message-bg-hover": "#e5eff9",
       },
       colors: {
-        "notificaction-type-hover": "#0a317b",
-        "unread-color": "#f65351",
+        "notificaction-hover": "#0a317b",
+        "isRead-color": "#f65351",
       },
     },
   },
