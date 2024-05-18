@@ -125,7 +125,7 @@ const NotificationComponent = () => {
             <div className="flex w-full flex-wrap items-center">
               <a
                 className="mr-1 font-semibold hover:text-notificaction-hover"
-                href={`#${notification.userName}`}
+                href={`#`}
               >
                 <p>{notification.userName}</p>
               </a>
@@ -162,7 +162,7 @@ const NotificationComponent = () => {
                   <img
                     className="max-w-12"
                     src={notification.picture}
-                    alt={notification.picture}
+                    alt="Chess picture"
                   />
                 </a>
               )}
